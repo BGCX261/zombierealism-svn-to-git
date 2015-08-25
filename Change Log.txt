@@ -1,0 +1,67 @@
+[01/19/10]
+    * Started on project.
+
+[01/20/10]
+    * Started on class selection menu.
+
+[01/21/10]
+    * Added 4 classes - Support, Soldier, Engineer, Medic (not done yet, these classes may change too).
+    * Added HUD element for rank XP (shows +5, etc).
+    * Started on the in-game customize class feature (only at beginning of game, before it begins - for now).
+    * Changed settings so the first round does not start until at least one player is spawned and actually playing (gotta add more to the code to avoid issues, but it will work for now).
+
+[01/25/10]
+    * Added zombie risers to Nacht Der Untoten.
+    * Added in-game create-a-class to class selection menu (custom class with all weapons to choose from; unlocked at rank 65).
+    * Fixed 1600 sound assets error on Verruckt.
+    * Fixed 400 fx assets error on Der Riese.
+    * Changed mystery box to only choose weapons specific to a player's selected class.
+    * Changed zombie models and attack animations in Nacht Der Untoten (they also now attack through the windows and can attack while moving).
+    * Changed class selection menu so that only certain weapons can be chosen from each class.
+
+[01/24/10]
+    * Added ability to add attachments to weapon on the class selection menu.
+    * Added more images to class selection menu (still have to remove some lines that are on it).
+    * Added more weapons to the mod.
+    * Added short descriptions of each class to class selection menu.
+    * Fixed issue where game did not start (no zombies spawned).
+
+[01/28/10]
+    * Added - Up to 3 Perks can now be selected in the class menu.
+    * Added - 65 more ranks have been added, which use prestige icons (prestige mode doesn't work with this mod). This adds up to a total of 130 ranks.
+    * Added - 10 bonus weapons can now be unlocked at certain ranks. They are modern weapons, but with the sound changed (to avoid 1600 sound error). Thanks to Way2Evil.
+    * Added - You can now gain rank XP in SP and COOP (unless cheats are used).
+    * Fixed - Rank XP no longer doubles when map is restarted.
+    * Fixed - Rank is no longer reset when playing SP.
+
+[01/29/10]
+    * Changed - Lighting has been changed in Nacht Der Untoten.
+    * Added - Started adding challenges and other stats tracking for each individual weapon (it's gonna take a while because I have to convert them from MP to be compatible with SP, but it will definitely be worth it).
+    * Added - Engineers must now repair perk machines before they can be used by anyone (this may be different in the final version, since Der Riese and Verruckt have power).
+
+[01/30/10]
+    * Added - 2 new powerups have been added: Berserker and Incendiary Damage.
+    * Changed - Zombies now spawn faster and run faster. Their health has only increased a little (so it isn't extremely hard).
+    * Changed - Weapon attachments are now only unlocked specific to a weapon's challenge progress (ie. marksman level 2 for the Thompson would unlock aperture sight for only the Thompson).
+    * Fixed - Stopping power perk now works correctly.
+
+[02/03/10]
+    * Fixed - There is no longer a 1 second delay for zombie deaths.
+    * Fixed - Infinite loop caused by berserker powerup has been fixed.
+    * Fixed - Challenges should now track correctly (Bolt action rifle challenges are not working properly, however).
+    * Fixed - Menu for rifles is now correct list of weapons.
+    * Fixed - Game should no longer say "Class to limits" after you have spawned.
+    * Fixed - Risers in Verruckt now spawn and move correctly.
+    * Fixed - Invisible weapons in Verruckt (specifically the M1 Garand + GL) have been.
+    * Fixed - Rank HUD should now show up in Verruckt.
+    * Fixed - Bug that caused players to spawn with a perk after they chose "no perk" has been.
+    * Changed - Kits in the class menu are now grayed-out when they are at their limits.
+    * Changed - Zombie health is now random.
+    * Changed - Players can now only purchase weapons that is from their class.
+    * Changed - There are now more zombies per round and they spawn faster.
+    * Removed - The button for primary grenades in the class menu has been removed.
+    * Added - Players can now choose a secondary grenade from the class menu. They can choose either sticky grenades or molotovs.
+    * Added - New spawning system. Only zombie spawners that are close to a random player will spawn.
+    * Added - The engineer class can now repair windows faster.
+    * Added - The medic class can now revive players faster.
+    * Added - There are now round bonuses for players (most knives, most head shots, most revives, least downs, etc.).

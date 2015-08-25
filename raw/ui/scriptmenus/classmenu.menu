@@ -1,0 +1,1468 @@
+#include "ui/menudef.h"
+#include "ui/choices_setup_common.menu"
+#include "ui/choices_setup_popmenu.menu"
+#include "ui/realism.inc"
+{		
+	menuDef
+	{
+		name			"classmenu"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			//open "classmenu";
+			open "pausedmenu";
+		}
+		onOpen
+		{
+			setDvar w_text ""
+			setDvar w_text2 ""
+			setDvar w_text_sec ""
+			setDvar w_text_sec2 ""
+			setDvar w_text_att ""
+			setDvar w_text_att2 ""
+			setDvar w_text_inv ""
+			setDvar w_text_gr_prim ""
+			setDvar w_text_gr_sec ""
+			setDvar m_text_perk1 ""
+			setDvar m_text_perk2 ""
+			setDvar m_text_perk3 ""
+		
+			setDvar show_medic "0"
+			setDvar show_engineer "0"
+			setDvar show_support "0"
+			setDvar show_soldier "0"
+			setDvar show_custom "0"
+		
+			setDvar show_gr_prim "0"
+			setDvar show_gr_sec "0"
+		
+			setDvar show_primary "0"
+			setDvar primary ""
+		
+			setDvar show_primary2 "0"
+			setDvar primary2 ""
+		
+			setDvar show_secondary "0"
+			setDvar secondary ""
+			
+			setDvar show_secondary2 "0"
+			setDvar secondary2 ""
+			
+			setDvar show_perk_1 "0"
+			setDvar m_perk1 ""
+			
+			setDvar show_perk_2 "0"
+			setDvar m_perk2 ""
+			
+			setDvar show_perk_3 "0"
+			setDvar m_perk3 ""
+			
+			setDvar show_perk2 "0"
+			setDvar perk2 ""
+		
+			setDvar show_inventory "0"
+			setDvar inventory ""
+		
+			setDvar show_primary_attachment "0"
+			setDvar primary_attachment ""
+			
+			setDvar show_primary_attachment2 "0"
+			setDvar primary_attachment2 ""
+			
+			setDvar show_grenade_primary "0"
+			setDvar grenade_primary ""
+			
+			setDvar last_menu ""
+			setDvar last_menu2 ""
+			
+			setdvar show_bolts "0"
+			setdvar show_rifles "0"
+			setdvar show_subs "0"
+			setdvar show_shots "0"
+			setdvar show_mgs "0"
+			
+			setDvar support_locked "0"
+			setDvar soldier_locked "0"
+			setDvar engineer_locked "0"
+			setDvar medic_locked "0"
+			setdvar unlocked_att dvarint(gewehr43)
+		}
+		onClose
+		{
+			setDvar show_medic "0"
+			setDvar show_engineer "0"
+			setDvar show_support "0"
+			setDvar show_soldier "0"
+			setDvar show_custom "0"
+		}
+		
+		STYLE_SETUP
+
+//******************** KIT INFORMATION ********************//
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			visible		1
+			origin			55 343
+			forecolor		COLOR_TITLE
+			text			"- ^1Kit info^7 -"
+			textfont		.46
+			textscale		TEXTSIZE_TITLE
+			decoration
+		}
+		
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			visible		1
+			origin			30 30
+			forecolor		COLOR_TITLE
+			text			"^6Select Class  "
+			textfont		.7
+			textscale		TEXTSIZE_TITLE
+			decoration
+		}
+		
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			visible		1
+			origin			57 365
+			forecolor		COLOR_TITLE
+			text			"The Support class is able to resupply team mates and has access to HMGs."
+			textfont		UI_FONT_NORMAL
+			textscale		.4
+			visible 		when(dvarInt(show_support) == 1)
+			decoration
+		}
+		
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			visible		1
+			origin			57 365
+			forecolor		COLOR_TITLE
+			text			"The Soldier has more health and has access to Sub-machine guns."
+			textfont		UI_FONT_NORMAL
+			textscale		.4
+			visible 		when(dvarInt(show_soldier) == 1)
+			decoration
+		}
+			
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			visible		1
+			origin			57 365
+			forecolor		COLOR_TITLE
+			text			"The Engineer can repair windows faster and has the ability to build."
+			textfont		UI_FONT_NORMAL
+			textscale		.4
+			visible 		when(dvarInt(show_engineer) == 1)
+			decoration
+		}
+		
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			visible		1
+			origin			57 365
+			forecolor		COLOR_TITLE
+			text			"The Medic has the ability to heal and revive players."
+			textfont		UI_FONT_NORMAL
+			textscale		.4
+			visible 		when(dvarInt(show_medic) == 1)
+			decoration
+		}
+		
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			visible		1
+			origin			57 365
+			forecolor		COLOR_TITLE
+			text			"Create your own class and select weapons and abilities from any class."
+			textfont		UI_FONT_NORMAL
+			textscale		.4
+			visible 		when(dvarInt(show_custom) == 1)
+			decoration
+		}
+
+//******************** CLASS BUTTONS ********************//
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "Support", scriptmenuresponse "support"; close classmenu; open kit_support, play "mouse_over"; setdvar show_support "1", setDvar show_support "0"; setDvar w_text "", when( !localvarBool( ui_hideBack ) && dvarint(support_locked) < 1 && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "Soldier", scriptmenuresponse "soldier"; close classmenu; open kit_soldier, play "mouse_over"; setdvar show_soldier "1", setDvar show_soldier "0"; setDvar w_text "", when( !localvarBool( ui_hideBack ) && dvarint(soldier_locked) < 1 && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Engineer", scriptmenuresponse "engineer"; close classmenu; open kit_engineer, play "mouse_over"; setdvar show_engineer "1", setDvar show_engineer "0"; setDvar w_text "", when( !localvarBool( ui_hideBack ) && dvarint(engineer_locked) < 1 && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "Medic", scriptmenuresponse "medic"; close classmenu; open kit_medic, play "mouse_over"; setdvar show_medic "1", setDvar show_medic "0"; setDvar w_text "", when( !localvarBool( ui_hideBack ) && dvarint(medic_locked) < 1 && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		
+		CHOICE_DBUTTON_VIS( 1, "Support", when( !localvarBool( ui_hideBack ) && dvarint(support_locked) >= 1 ) )
+		CHOICE_DBUTTON_VIS( 2, "Soldier", when( !localvarBool( ui_hideBack ) && dvarint(soldier_locked) >= 1 ) )
+		CHOICE_DBUTTON_VIS( 3, "Engineer", when( !localvarBool( ui_hideBack ) && dvarint(engineer_locked) >= 1 ) )
+		CHOICE_DBUTTON_VIS( 4, "Medic", when( !localvarBool( ui_hideBack ) && dvarint(medic_locked) >= 1 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Custom Class", scriptmenuresponse "custom"; setdvar kit_type "custom"; close classmenu; open kit_custom, play "mouse_over", setDvar show_medic "0"; setDvar w_text "", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 65 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 65 ))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 65 ) ) 	
+		CHOICE_DBUTTON_VIS( 6, "Custom Class", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 65 ) )
+	}
+	
+//**************************************** CUSTOM - MODIFY KIT ****************************************//
+	menuDef
+	{
+		name			"kit_custom"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			open classmenu;
+		}
+		onOpen
+		{
+			KIT_CUS
+		}
+		onClose
+		{
+		}
+		
+		STYLE_SETUP2
+		
+		// Weapon Info
+		WEAPON_PRIMARY
+		SHADER_DRAW( 360, 45, 120, 85, dvarString(primary), 1 1 1 1, when(dvarint(show_primary) >= 1 && dvarString(primary) != "" ))
+		
+		WEAPON_PRIMARY_ATT
+		SHADER_DRAW( 529, 63, 80, 55, dvarString(primary_attachment), 1 1 1 1, when(dvarint(show_primary_attachment) >= 1 && dvarString(primary_attachment) !="" ))
+		
+		WEAPON_SECONDARY
+		SHADER_DRAW( 360, 165, 100, 78, dvarString(secondary), 1 1 1 1, when(dvarint(show_secondary) >= 1 && dvarString(secondary) != ""))
+		
+		WEAPON_GRENADE_SECONDARY
+		SHADER_DRAW( 385, 250, 80, 75, dvarString(gr_prim), 1 1 1 1, when(dvarint(show_gr_prim) >= 1 && dvarString(gr_prim) != "" ))
+		
+		WEAPON_PERK_MAIN1
+		WEAPON_PERK_MAIN2
+		WEAPON_PERK_MAIN3
+		SHADER_DRAW( 360, 365, 30, 30, dvarString(m_perk1), 1 1 1 1, when(dvarint(show_perk_1) >= 1 && dvarString(m_perk1) != "" ))
+		SHADER_DRAW( 360, 400, 30, 30, dvarString(m_perk2), 1 1 1 1, when(dvarint(show_perk_2) >= 1 && dvarString(m_perk2) != "" ))
+		SHADER_DRAW( 360, 435, 30, 30, dvarString(m_perk3), 1 1 1 1, when(dvarint(show_perk_3) >= 1 && dvarString(m_perk3) != "" ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "Primary Weapon", open w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ))
+		//( 1, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) ) 	
+		CHOICE_DBUTTON_VIS( 1, "Primary Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "Side Arm", open w_pistol, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 5 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ))
+		//( 2, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) ) 	
+		CHOICE_DBUTTON_VIS( 2, "Side Arm", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) )
+			
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Offhand Weapon", open w_inventory, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 18 ))
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ))
+		//( 3, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) ) 	
+		//CHOICE_DBUTTON_VIS( 3, "Offhand Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Secondary Grenade", open w_grenade_secondary, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 15 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ))
+		//( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) ) 	
+		CHOICE_DBUTTON_VIS( 3, "Secondary Grenade", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+	
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "Special Abilities", open w_special, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 22 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) ) 	
+		CHOICE_DBUTTON_VIS( 4, "Special Abilities", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Perk 1", open w_perk1, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 5, "Perk 1", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Perk 2", open w_perk2, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 6, "Perk 2", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Perk 3", open w_perk3, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 7, "Perk 3", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Accept", scriptMenuResponse "accept"; close self; C_ALL, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; setdvar kit_type ""; close self; open classmenu, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+		
+//**************************************** SUPPORT - MODIFY KIT ****************************************//
+	menuDef
+	{
+		name			"kit_support"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			open classmenu;
+		}
+		onOpen
+		{
+			KIT_SUP;
+		}
+		onClose
+		{
+		}
+		
+		STYLE_SETUP2
+		
+		// Weapon Info
+		WEAPON_PRIMARY
+		SHADER_DRAW( 360, 45, 120, 85, dvarString(primary), 1 1 1 1, when(dvarint(show_primary) >= 1 && dvarString(primary) != "" ))
+		
+		WEAPON_PRIMARY_ATT
+		SHADER_DRAW( 529, 63, 80, 55, dvarString(primary_attachment), 1 1 1 1, when(dvarint(show_primary_attachment) >= 1 && dvarString(primary_attachment) !="" ))
+		
+		WEAPON_SECONDARY
+		SHADER_DRAW( 360, 165, 100, 78, dvarString(secondary), 1 1 1 1, when(dvarint(show_secondary) >= 1 && dvarString(secondary) != ""))
+		
+		WEAPON_GRENADE_SECONDARY
+		SHADER_DRAW( 385, 250, 80, 75, dvarString(gr_prim), 1 1 1 1, when(dvarint(show_gr_prim) >= 1 && dvarString(gr_prim) != "" ))
+		
+		WEAPON_PERK_MAIN1
+		WEAPON_PERK_MAIN2
+		WEAPON_PERK_MAIN3
+		SHADER_DRAW( 360, 365, 30, 30, dvarString(m_perk1), 1 1 1 1, when(dvarint(show_perk_1) >= 1 && dvarString(m_perk1) != "" ))
+		SHADER_DRAW( 360, 400, 30, 30, dvarString(m_perk2), 1 1 1 1, when(dvarint(show_perk_2) >= 1 && dvarString(m_perk2) != "" ))
+		SHADER_DRAW( 360, 435, 30, 30, dvarString(m_perk3), 1 1 1 1, when(dvarint(show_perk_3) >= 1 && dvarString(m_perk3) != "" ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "Primary Weapon", open w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ))
+		//( 1, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) ) 	
+		CHOICE_DBUTTON_VIS( 1, "Primary Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "Side Arm", open w_pistol, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 5 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ))
+		//( 2, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) ) 	
+		CHOICE_DBUTTON_VIS( 2, "Side Arm", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) )
+			
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Offhand Weapon", open w_inventory, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 18 ))
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ))
+		//( 3, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) ) 	
+		//CHOICE_DBUTTON_VIS( 3, "Offhand Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Secondary Grenade", open w_grenade_secondary, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 15 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ))
+		//( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) ) 	
+		CHOICE_DBUTTON_VIS( 3, "Secondary Grenade", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+	
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "Special Abilities", open w_special, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 22 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) ) 	
+		CHOICE_DBUTTON_VIS( 4, "Special Abilities", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Perk 1", open w_perk1, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 5, "Perk 1", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Perk 2", open w_perk2, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 6, "Perk 2", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Perk 3", open w_perk3, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 7, "Perk 3", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Accept", scriptMenuResponse "accept"; close self; C_ALL, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; setdvar kit_type ""; close self; open classmenu, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** SOLDIER - MODIFY KIT ****************************************//
+	menuDef
+	{
+		name			"kit_soldier"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			open classmenu;
+		}
+		onOpen
+		{
+			KIT_SOL;
+		}
+		onClose
+		{
+		}
+		
+		STYLE_SETUP2
+		
+		// Weapon Info
+		WEAPON_PRIMARY
+		SHADER_DRAW( 360, 45, 120, 85, dvarString(primary), 1 1 1 1, when(dvarint(show_primary) >= 1 && dvarString(primary) != "" ))
+		
+		WEAPON_PRIMARY_ATT
+		SHADER_DRAW( 529, 63, 80, 55, dvarString(primary_attachment), 1 1 1 1, when(dvarint(show_primary_attachment) >= 1 && dvarString(primary_attachment) !="" ))
+		
+		WEAPON_SECONDARY
+		SHADER_DRAW( 360, 165, 100, 78, dvarString(secondary), 1 1 1 1, when(dvarint(show_secondary) >= 1 && dvarString(secondary) != ""))
+		
+		WEAPON_GRENADE_SECONDARY
+		SHADER_DRAW( 385, 250, 80, 75, dvarString(gr_prim), 1 1 1 1, when(dvarint(show_gr_prim) >= 1 && dvarString(gr_prim) != "" ))
+		
+		WEAPON_PERK_MAIN1
+		WEAPON_PERK_MAIN2
+		WEAPON_PERK_MAIN3
+		SHADER_DRAW( 360, 365, 30, 30, dvarString(m_perk1), 1 1 1 1, when(dvarint(show_perk_1) >= 1 && dvarString(m_perk1) != "" ))
+		SHADER_DRAW( 360, 400, 30, 30, dvarString(m_perk2), 1 1 1 1, when(dvarint(show_perk_2) >= 1 && dvarString(m_perk2) != "" ))
+		SHADER_DRAW( 360, 435, 30, 30, dvarString(m_perk3), 1 1 1 1, when(dvarint(show_perk_3) >= 1 && dvarString(m_perk3) != "" ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "Primary Weapon", open w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ))
+		//( 1, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) ) 	
+		CHOICE_DBUTTON_VIS( 1, "Primary Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "Side Arm", open w_pistol, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 5 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ))
+		//( 2, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) ) 	
+		CHOICE_DBUTTON_VIS( 2, "Side Arm", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) )
+			
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Offhand Weapon", open w_inventory, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 18 ))
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ))
+		//( 3, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) ) 	
+		//CHOICE_DBUTTON_VIS( 3, "Offhand Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Secondary Grenade", open w_grenade_secondary, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 15 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ))
+		//( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) ) 	
+		CHOICE_DBUTTON_VIS( 3, "Secondary Grenade", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+	
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "Special Abilities", open w_special, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 22 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) ) 	
+		CHOICE_DBUTTON_VIS( 4, "Special Abilities", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Perk 1", open w_perk1, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 5, "Perk 1", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Perk 2", open w_perk2, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 6, "Perk 2", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Perk 3", open w_perk3, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 7, "Perk 3", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Accept", scriptMenuResponse "accept"; close self; C_ALL, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; setdvar kit_type ""; close self; open classmenu, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** ENGINEER - MODIFY KIT ****************************************//
+	menuDef
+	{
+		name			"kit_engineer"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			open classmenu;
+		}
+		onOpen
+		{
+			KIT_ENG;
+		}
+		onClose
+		{
+		}
+		
+		STYLE_SETUP2
+		
+		// Weapon Info
+		WEAPON_PRIMARY
+		SHADER_DRAW( 360, 45, 120, 85, dvarString(primary), 1 1 1 1, when(dvarint(show_primary) >= 1 && dvarString(primary) != "" ))
+		
+		WEAPON_PRIMARY_ATT
+		SHADER_DRAW( 529, 63, 80, 55, dvarString(primary_attachment), 1 1 1 1, when(dvarint(show_primary_attachment) >= 1 && dvarString(primary_attachment) !="" ))
+		
+		WEAPON_SECONDARY
+		SHADER_DRAW( 360, 165, 100, 78, dvarString(secondary), 1 1 1 1, when(dvarint(show_secondary) >= 1 && dvarString(secondary) != ""))
+		
+		WEAPON_GRENADE_SECONDARY
+		SHADER_DRAW( 385, 250, 80, 75, dvarString(gr_prim), 1 1 1 1, when(dvarint(show_gr_prim) >= 1 && dvarString(gr_prim) != "" ))
+		
+		WEAPON_PERK_MAIN1
+		WEAPON_PERK_MAIN2
+		WEAPON_PERK_MAIN3
+		SHADER_DRAW( 360, 365, 30, 30, dvarString(m_perk1), 1 1 1 1, when(dvarint(show_perk_1) >= 1 && dvarString(m_perk1) != "" ))
+		SHADER_DRAW( 360, 400, 30, 30, dvarString(m_perk2), 1 1 1 1, when(dvarint(show_perk_2) >= 1 && dvarString(m_perk2) != "" ))
+		SHADER_DRAW( 360, 435, 30, 30, dvarString(m_perk3), 1 1 1 1, when(dvarint(show_perk_3) >= 1 && dvarString(m_perk3) != "" ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "Primary Weapon", open w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ))
+		//( 1, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) ) 	
+		CHOICE_DBUTTON_VIS( 1, "Primary Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "Side Arm", open w_pistol, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 5 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ))
+		//( 2, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) ) 	
+		CHOICE_DBUTTON_VIS( 2, "Side Arm", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) )
+			
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Offhand Weapon", open w_inventory, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 18 ))
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ))
+		//( 3, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) ) 	
+		//CHOICE_DBUTTON_VIS( 3, "Offhand Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Secondary Grenade", open w_grenade_secondary, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 15 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ))
+		//( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) ) 	
+		CHOICE_DBUTTON_VIS( 3, "Secondary Grenade", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+	
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "Special Abilities", open w_special, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 22 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) ) 	
+		CHOICE_DBUTTON_VIS( 4, "Special Abilities", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Perk 1", open w_perk1, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 5, "Perk 1", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Perk 2", open w_perk2, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 6, "Perk 2", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Perk 3", open w_perk3, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 7, "Perk 3", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Accept", scriptMenuResponse "accept"; close self; C_ALL, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; setdvar kit_type ""; close self; open classmenu, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** MEDIC - MODIFY KIT ****************************************//
+	menuDef
+	{
+		name			"kit_medic"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			open classmenu;
+		}
+		onOpen
+		{
+			KIT_MED;
+		}
+		onClose
+		{
+		}
+		
+		STYLE_SETUP2
+		
+		// Weapon Info
+		WEAPON_PRIMARY
+		SHADER_DRAW( 360, 45, 120, 85, dvarString(primary), 1 1 1 1, when(dvarint(show_primary) >= 1 && dvarString(primary) != "" ))
+		
+		WEAPON_PRIMARY_ATT
+		SHADER_DRAW( 529, 63, 80, 55, dvarString(primary_attachment), 1 1 1 1, when(dvarint(show_primary_attachment) >= 1 && dvarString(primary_attachment) !="" ))
+		
+		WEAPON_SECONDARY
+		SHADER_DRAW( 360, 165, 100, 78, dvarString(secondary), 1 1 1 1, when(dvarint(show_secondary) >= 1 && dvarString(secondary) != ""))
+		
+		WEAPON_GRENADE_SECONDARY
+		SHADER_DRAW( 385, 250, 80, 75, dvarString(gr_prim), 1 1 1 1, when(dvarint(show_gr_prim) >= 1 && dvarString(gr_prim) != "" ))
+		
+		WEAPON_PERK_MAIN1
+		WEAPON_PERK_MAIN2
+		WEAPON_PERK_MAIN3
+		SHADER_DRAW( 360, 365, 30, 30, dvarString(m_perk1), 1 1 1 1, when(dvarint(show_perk_1) >= 1 && dvarString(m_perk1) != "" ))
+		SHADER_DRAW( 360, 400, 30, 30, dvarString(m_perk2), 1 1 1 1, when(dvarint(show_perk_2) >= 1 && dvarString(m_perk2) != "" ))
+		SHADER_DRAW( 360, 435, 30, 30, dvarString(m_perk3), 1 1 1 1, when(dvarint(show_perk_3) >= 1 && dvarString(m_perk3) != "" ))
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "Primary Weapon", open w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 1, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ))
+		//( 1, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) ) 	
+		CHOICE_DBUTTON_VIS( 1, "Primary Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "Side Arm", open w_pistol, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 5 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 2, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ))
+		//( 2, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) ) 	
+		CHOICE_DBUTTON_VIS( 2, "Side Arm", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) )
+			
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Offhand Weapon", open w_inventory, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 18 ))
+		//CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ))
+		//( 3, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) ) 	
+		//CHOICE_DBUTTON_VIS( 3, "Offhand Weapon", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 18 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "Secondary Grenade", open w_grenade_secondary, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 15 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 3, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ))
+		//( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) ) 	
+		CHOICE_DBUTTON_VIS( 3, "Secondary Grenade", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+	
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "Special Abilities", open w_special, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 22 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 4, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) ) 	
+		CHOICE_DBUTTON_VIS( 4, "Special Abilities", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 22 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Perk 1", open w_perk1, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 5, "Perk 1", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Perk 2", open w_perk2, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 6, "Perk 2", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Perk 3", open w_perk3, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))
+		//( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) ) 	
+		CHOICE_DBUTTON_VIS( 7, "Perk 3", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Accept", scriptMenuResponse "accept"; close self; C_ALL, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; setdvar kit_type ""; close self; open classmenu, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** PERK 1 ****************************************//
+	menuDef
+	{
+		name			"w_perk1"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_perk1, 6, close self, ;, 1 )
+		CHOICE_POPMENU_TITLE( "Perk 1" )
+		
+		WEAPON_PERK1
+		SHADER_DRAW( 240, 183, 30, 30, dvarString(perk2), 1 1 1 1, when(dvarint(show_perk2) >= 1 && dvarString(perk2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Perk", scriptMenuResponse "none"; setdvar m_perk1 ""; setdvar m_text_perk1 ""; SHOW_W; close self, setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Extreme Conditioning", scriptMenuResponse "specialty_longersprint"; setdvar show_perk2 "0"; setdvar m_perk1 "specialty_longersprint"; setdvar m_text_perk1 "Longer Sprint"; SHOW_W; close self, setDvar w_text_perk2 "Longer Sprint"; setdvar perk2 "specialty_longersprint"; setdvar show_perk2 "1", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 25 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25 ) )
+		CHOICE_DBUTTON_VIS( 6, "Extreme Conditioning", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Double Tap", scriptMenuResponse "specialty_rof"; setdvar m_perk1 "specialty_rof"; setdvar show_perk2 "0"; setdvar m_text_perk1 "Increased rate of fire"; SHOW_W; close self, setDvar w_text_perk2 "Increased rate of fire"; setdvar perk2 "specialty_rof"; setdvar show_perk2 "1", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 30 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30 ) )
+		CHOICE_DBUTTON_VIS( 7, "Double Tap", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30 ) )
+
+							
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close self; , ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** PERK 2 ****************************************//
+	menuDef
+	{
+		name			"w_perk2"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_perk2, 6, close self, ;, 1 )
+		CHOICE_POPMENU_TITLE( "Perk 2" )
+		
+		WEAPON_PERK1
+		SHADER_DRAW( 240, 183, 30, 30, dvarString(perk2), 1 1 1 1, when(dvarint(show_perk2) >= 1 && dvarString(perk2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Perk", scriptMenuResponse "none"; setdvar m_perk2 ""; setdvar m_text_perk2 ""; SHOW_W; close self, setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))		
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Quick Revive", scriptMenuResponse "specialty_quickrevive"; setdvar show_perk2 "0"; setdvar m_perk2 "specialty_quickrevive_zombies"; setdvar m_text_perk2 "Faster revive speed"; SHOW_W; close self, setDvar w_text_perk2 "Faster revive speed"; setdvar perk2 "specialty_quickrevive_zombies"; setdvar show_perk2 "1", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+		CHOICE_DBUTTON_VIS( 6, "Quick Revive", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Sleight of Hand", scriptMenuResponse "specialty_fastreload"; setdvar show_perk2 "0"; setdvar m_perk2 "specialty_fastreload"; setdvar m_text_perk2 "Faster reload"; SHOW_W; close self, setDvar w_text_perk2 "Faster reload"; setdvar perk2 "specialty_fastreload"; setdvar show_perk2 "1", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 50 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 50 ) )
+		CHOICE_DBUTTON_VIS( 7, "Sleight of Hand", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 50 ) )
+					
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close self; , ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+
+//**************************************** PERK 3 ****************************************//
+	menuDef
+	{
+		name			"w_perk3"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_perk3, 6, close self, ;, 1 )
+		CHOICE_POPMENU_TITLE( "Perk 3" )
+		
+		WEAPON_PERK1
+		SHADER_DRAW( 240, 183, 30, 30, dvarString(perk2), 1 1 1 1, when(dvarint(show_perk2) >= 1 && dvarString(perk2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Perk", scriptMenuResponse "none"; setdvar m_perk3 ""; setdvar m_text_perk3 ""; SHOW_W; close self, setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Stopping Power", scriptMenuResponse "specialty_bulletdamage"; setdvar show_perk2 "0"; setdvar m_perk3 "specialty_bulletdamage"; setdvar m_text_perk3 "Increased bullet damage"; SHOW_W; close self, setDvar w_text_perk2 "Increased bullet damage"; setdvar perk2 "specialty_bulletdamage"; setdvar show_perk2 "1", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 35 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 35 ) )
+		CHOICE_DBUTTON_VIS( 6, "Stopping Power", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 35 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Juggernaut", scriptMenuResponse "specialty_armorvest"; setdvar show_perk2 "0"; setdvar m_perk3 "specialty_armorvest"; setdvar m_text_perk3 "Increased health"; SHOW_W; close self, setDvar w_text_perk2 "Increased health"; setdvar perk2 "specialty_armorvest"; setdvar show_perk2 "1", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 40 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 40 ) )
+		CHOICE_DBUTTON_VIS( 7, "Juggernaut", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 40 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Overkill", scriptMenuResponse "specialty_twoprimaries"; setdvar show_perk2 "0"; setdvar m_perk3 "specialty_twoprimaries"; setdvar m_text_perk3 "Three primary guns"; SHOW_W; close self, setDvar w_text_perk2 "Three primary guns"; setdvar perk2 "specialty_twoprimaries"; setdvar show_perk2 "1", setDvar w_text_perk2 ""; setdvar perk2 ""; setdvar show_perk2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 55 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 55 ) )
+		CHOICE_DBUTTON_VIS( 8, "Overkill", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 55 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close self; , ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** PRIMARY WEAPONS ****************************************//
+	menuDef
+	{
+		name			"w_support"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_support, 6, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Primary Weapon" )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Bolt Action Rifles", open w_bolt, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+		CHOICE_DBUTTON_VIS( 5, "Bolt Action Rifles", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 10 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Rifles", open w_rifle, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 12 && dvarString(kit_type) == "support" || dvarString(kit_type) == "soldier" || dvarString(kit_type) == "engineer" || dvarString(kit_type) == "medic" || dvarString(kit_type) == "custom"))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 12 ) )
+		CHOICE_DBUTTON_VIS( 6, "Rifles", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 12 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Submachine Guns", open w_sub, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 20 && dvarString(kit_type) == "soldier" || dvarString(kit_type) == "custom" || dvarString(kit_type) == "medic" ))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 && dvarString(kit_type) == "soldier" || dvarString(kit_type) == "custom" || dvarString(kit_type) == "medic" ) )
+		CHOICE_DBUTTON_VIS( 7, "Submachine Guns", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 && dvarString(kit_type) == "soldier" || dvarString(kit_type) == "custom" || dvarString(kit_type) == "medic" ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Shotguns", open w_shot, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 20 && dvarString(kit_type) == "engineer" || dvarString(kit_type) == "custom" ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 && dvarString(kit_type) == "engineer" || dvarString(kit_type) == "custom" ) )
+		CHOICE_DBUTTON_VIS( 8, "Shotguns", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 && dvarString(kit_type) == "engineer" || dvarString(kit_type) == "custom" ) )		
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Machine Guns", open w_mg, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 30 && dvarString(kit_type) == "support" || dvarString(kit_type) == "custom"))
+		CHOICE_DBUTTON_VIS( 9, "Machine Guns", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30 && dvarString(kit_type) == "support" || dvarString(kit_type) == "custom" ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 11, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close self; , ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+
+//*********************************** PISTOLS ***********************************//
+	menuDef
+	{
+		name			"w_pistol"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP3
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_pistol, 6, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Pistols" )
+		
+		// Weapon Info
+		SHADER_DRAW( 290, 175, 100, 78, dvarString(secondary2), 1 1 1 1, when(dvarint(show_secondary2) >= 1 && dvarString(secondary2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Colt M1911", scriptMenuResponse "zombie_colt"; setdvar secondary "weapon_colt"; setdvar w_text_sec "Colt M1911"; SHOW_W; close self, setDvar w_text_sec2 "Colt M1911"; setdvar secondary2 "weapon_colt"; setdvar show_secondary2 "1", setDvar w_text_sec2 ""; setdvar secondary2 ""; setdvar show_secondary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Walther P38", scriptMenuResponse "walther"; setdvar secondary "weapon_walther"; setdvar w_text_sec "Walther P38"; SHOW_W; close self, setDvar w_text_sec2 "Walther P38"; setdvar secondary2 "weapon_walther"; setdvar show_secondary2 "1", setDvar w_text_sec2 ""; setdvar secondary2 ""; setdvar show_secondary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 5 ))		
+		CHOICE_DBUTTON_VIS( 6, "Walther P38", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 5 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, ".357 Magnum", scriptMenuResponse "sw_357"; setdvar secondary "weapon_357magnum"; setdvar w_text_sec ".357 Magnum"; SHOW_W; close self, setDvar w_text_sec2 ".357 Magnum"; setdvar secondary2 "weapon_357magnum"; setdvar show_secondary2 "1", setDvar w_text_sec2 ""; setdvar secondary2 ""; setdvar show_secondary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 35 ))		
+		CHOICE_DBUTTON_VIS( 7, ".357 Magnum", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 35 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Gold Desert Eagle", scriptMenuResponse "deserteagle"; setdvar secondary "mtl_weapon_desert_eagle_gold"; setdvar w_text_sec "Desert Eagle"; SHOW_W; close self, setDvar w_text_sec2 "Desert Eagle"; setdvar secondary2 "mtl_weapon_desert_eagle_gold"; setdvar show_secondary2 "1", setDvar w_text_sec2 ""; setdvar secondary2 ""; setdvar show_secondary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 75 ))		
+		CHOICE_DBUTTON_VIS( 8, "Desert Eagle", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 75 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close self; , ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//*********************************** BOLT ACTION RIFLES ***********************************//
+	menuDef
+	{
+		name			"w_bolt"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP3
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_bolt, 3, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Bolt Action Rifles" )
+		
+		// Weapon Info
+		SHADER_DRAW( 290, 175, 120, 85, dvarString(primary2), 1 1 1 1, when(dvarint(show_primary2) >= 1 && dvarString(primary2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Springfield", scriptMenuResponse "springfield"; setdvar primary "weapon_springfield"; setdvar w_text "Springfield"; SHOW_W; W_BOLT; close w_support; close self; setdvar unlocked_att dvarint(springfield); open w_bolt_attachments, setDvar w_text2 "Springfield"; setdvar primary2 "weapon_springfield"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 10 ))
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Kar98k", scriptMenuResponse "kar98k"; setdvar primary "weapon_kar98k"; setdvar w_text "Kar98k"; SHOW_W; W_BOLT; close w_support; close self; setdvar unlocked_att dvarint(kar98k); open w_bolt_attachments, setDvar w_text2 "Kar98k"; setdvar primary2 "weapon_kar98k"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && dvarString( mapname ) != "nazi_zombie_sumpf" && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 13 ))
+		CHOICE_DBUTTON_VIS( 6, "Kar98k", when( !localvarBool( ui_hideBack ) && dvarString( mapname ) != "nazi_zombie_sumpf" && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 13 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Ariska", scriptMenuResponse "type99_rifle"; setdvar primary "weapon_type99_rifle"; setdvar w_text "Ariska"; SHOW_W; W_BOLT; close w_support; close self; setdvar unlocked_att dvarint(type99_rifle); open w_bolt_attachments, setDvar w_text2 "Ariska"; setdvar primary2 "weapon_type99_rifle"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && dvarString( mapname ) == "nazi_zombie_sumpf" && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 13 ))
+		CHOICE_DBUTTON_VIS( 6, "Ariska", when( !localvarBool( ui_hideBack ) && dvarString( mapname ) == "nazi_zombie_sumpf" && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 13 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Cancel", scriptMenuResponse "cancel"; close w_support; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//*********************************** MACHINE GUNS ***********************************//
+	menuDef
+	{
+		name			"w_mg"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP3
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_mg, 5, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Machine Guns" )
+		
+		// Weapon Info
+		SHADER_DRAW( 290, 175, 120, 85, dvarString(primary2), 1 1 1 1, when(dvarint(show_primary2) >= 1 && dvarString(primary2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "BAR", scriptMenuResponse "bar_bipod"; setdvar primary "weapon_bar"; setdvar w_text "BAR"; SHOW_W; W_MACHINE_1; close w_support; setdvar show_primary_attachment "0"; close self, setDvar w_text2 "BAR"; setdvar primary2 "weapon_bar"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 30 ))
+		CHOICE_DBUTTON_VIS( 5, "BAR", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "FG42", scriptMenuResponse "fg42_bipod"; setdvar primary "weapon_fg42"; setdvar w_text "FG42"; SHOW_W; W_MACHINE_1; close w_support; setdvar show_primary_attachment "0"; close self, setDvar w_text2 "FG42"; setdvar primary2 "weapon_fg42"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 44 ))
+		CHOICE_DBUTTON_VIS( 6, "FG42", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 44 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "MG42", scriptMenuResponse "mg42_bipod"; setdvar primary "weapon_mg42"; setdvar w_text "MG42"; SHOW_W; W_MACHINE_1; close w_support; setdvar show_primary_attachment "0"; close self, setDvar w_text2 "MG42"; setdvar primary2 "weapon_mg42"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 55 ))
+		CHOICE_DBUTTON_VIS( 7, "MG42", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 55 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Browning M1919", scriptMenuResponse "30cal_bipod"; setdvar primary "weapon_30cal"; setdvar w_text "Browning M1919"; SHOW_W; W_MACHINE_1; close w_support; setdvar show_primary_attachment "0"; close self, setDvar w_text2 "Browning M1919"; setdvar primary2 "weapon_30cal"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 63 ))
+		CHOICE_DBUTTON_VIS( 8, "Browning M1919", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 63 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "M249 SAW", scriptMenuResponse "m249"; setdvar primary "mtl_weapon_saw"; setdvar w_text "M249 SAW"; SHOW_W; W_MACHINE_1; close w_support; setdvar show_primary_attachment "0"; close self, setDvar w_text2 "M249 SAW"; setdvar primary2 "mtl_weapon_saw"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 95 ))
+		CHOICE_DBUTTON_VIS( 9, "M249 SAW", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 95 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "RPD", scriptMenuResponse "rpd"; setdvar primary "mtl_weapon_rpd"; setdvar w_text "RPD"; SHOW_W; W_MACHINE_1; close w_support; setdvar show_primary_attachment "0"; close self, setDvar w_text2 "RPD"; setdvar primary2 "mtl_weapon_rpd"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 120 ))
+		CHOICE_DBUTTON_VIS( 10, "RPD", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 115 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 12, "Cancel", scriptMenuResponse "cancel"; close w_support; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//*********************************** RIFLES ***********************************//
+	menuDef
+	{
+		name			"w_rifle"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP3
+
+		CENTER_POPUP_SETUP_ONOPEN( w_rifle, 6, close w_support; close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Rifles" )
+		
+		// Weapon Info
+		SHADER_DRAW( 290, 175, 120, 85, dvarString(primary2), 1 1 1 1, when(dvarint(show_primary2) >= 1 && dvarString(primary2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Gewehr 43", scriptMenuResponse "gewehr43"; setdvar primary "weapon_gewehr43"; setdvar w_text "Gewehr 43"; close self; close w_support; open w_rifle_attachments; SHOW_W; W_RIFLE_1; , setDvar w_text2 "Gewehr 43"; setdvar primary2 "weapon_gewehr43"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 12 ))
+		CHOICE_LOCKEDICON_VIS( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 12 ) )
+		CHOICE_DBUTTON_VIS( 5, "Gewehr 43", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 12 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "M1 Garand", scriptMenuResponse "m1garand"; setdvar primary "weapon_m1garand"; setdvar w_text "M1 Garand"; close self; close w_support; setdvar unlocked_att dvarint(m1garand); open w_bolt_attachments; SHOW_W; W_RIFLE_4; , setDvar w_text2 "M1 Garand"; setdvar primary2 "weapon_m1garand"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 15 ))
+		CHOICE_LOCKEDICON_VIS( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+		CHOICE_DBUTTON_VIS( 6, "M1 Garand", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "M1A1 Carbine", scriptMenuResponse "m1carbine"; setdvar primary "weapon_m1carbine"; setdvar w_text "M1A1 Carbine"; close self; close w_support; setdvar unlocked_att dvarint(m1carbine); open w_rifle_attachments2; SHOW_W; W_RIFLE_3; , setDvar w_text2 "M1 Carbine"; setdvar primary2 "weapon_m1carbine"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 19 ))
+		CHOICE_LOCKEDICON_VIS( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 19 ) )
+		CHOICE_DBUTTON_VIS( 7, "M1A1 Carbine", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 19 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "PTRS-41", scriptMenuResponse "ptrs41_zombie"; setdvar primary "weapon_ptrs41"; close w_support; setdvar show_primary_attachment "0"; close self; SHOW_W; setdvar w_text "PTRS-41"; , setDvar w_text2 "PTRS-41"; setdvar primary2 "weapon_ptrs41"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 50 ))
+		CHOICE_LOCKEDICON_VIS( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 50 ) )
+		CHOICE_DBUTTON_VIS( 9, "PTRS-41", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 50 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Dragunov", scriptMenuResponse "dragunov"; setdvar primary "mtl_weapon_dragunov_scope"; close w_support; setdvar show_primary_attachment "0"; close self; SHOW_W; setdvar w_text "Dragunov"; , setDvar w_text2 "Dragunov"; setdvar primary2 "mtl_weapon_dragunov_scope"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 75 ))
+		CHOICE_LOCKEDICON_VIS( 10, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 75 ) )
+		CHOICE_DBUTTON_VIS( 10, "Dragunov", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 75 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 11, "M16A4", scriptMenuResponse "m16"; setdvar primary "mtl_weapon_m16berrel"; close w_support; setdvar show_primary_attachment "0"; close self; SHOW_W; setdvar w_text "M16A4"; , setDvar w_text2 "M16A4"; setdvar primary2 "mtl_weapon_m16berrel"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 85 ))
+		CHOICE_LOCKEDICON_VIS( 11, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 85 ) )
+		CHOICE_DBUTTON_VIS( 11, "M16A4", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 85 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 12, "M4 Carbine", scriptMenuResponse "m4"; setdvar primary "mtl_weapon_m4_m16"; close w_support; setdvar show_primary_attachment "0"; close self; SHOW_W; setdvar w_text "M4 Carbine"; , setDvar w_text2 "M4 Carbine"; setdvar primary2 "mtl_weapon_m4_m16"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 110 ))
+		CHOICE_LOCKEDICON_VIS( 12, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 110 ) )
+		CHOICE_DBUTTON_VIS( 12, "M4 Carbine", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 110 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 13, "AK-47", scriptMenuResponse "ak47"; setdvar primary "mtl_weapon_ak47"; close w_support; setdvar show_primary_attachment "0"; close self; SHOW_W; setdvar w_text "AK-47"; , setDvar w_text2 "AK-47"; setdvar primary2 "mtl_weapon_ak47"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 120 ))
+		CHOICE_LOCKEDICON_VIS( 13, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 120 ) )
+		CHOICE_DBUTTON_VIS( 13, "AK-47", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 120 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 15, "Cancel", scriptMenuResponse "cancel"; SHOW_W;close w_support; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//*********************************** SUBMACHINE GUNS ***********************************//
+	menuDef
+	{
+		name			"w_sub"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP3
+
+		CENTER_POPUP_SETUP_ONOPEN( w_sub, 11, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Submachine Guns" )
+		
+		// Weapon Info
+		SHADER_DRAW( 290, 175, 120, 85, dvarString(primary2), 1 1 1 1, when(dvarint(show_primary2) >= 1 && dvarString(primary2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Thompson", scriptMenuResponse "thompson"; setdvar primary "weapon_thompson"; setdvar w_text "Thompson"; close self; close w_support; W_SUB; setDvar unlocked_att dvarint(thompson); open w_rifle_attachments2, setDvar w_text2 "Thompson"; setdvar primary2 "weapon_thompson"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 20 ))
+		//( 5, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20) )
+		CHOICE_DBUTTON_VIS( 5, "Thompson", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "MP40", scriptMenuResponse "mp40"; setdvar primary "weapon_mp40"; setdvar w_text "MP40"; close self; close w_support; W_SUB; setDvar unlocked_att dvarint(mp40); open w_rifle_attachments2 , setDvar w_text2 "MP40"; setdvar primary2 "weapon_mp40"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 32 ))
+		//( 6, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 32 ) )
+		CHOICE_DBUTTON_VIS( 6, "MP40", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 32 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "STG44", scriptMenuResponse "stg44"; setdvar primary "weapon_stg44"; setdvar w_text "STG44"; close self; close w_support; W_RIFLE_2; setDvar unlocked_att dvarint(stg44); open w_rifle_attachments, setDvar w_text2 "STG44"; setdvar primary2 "weapon_stg44"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 43 ))
+		//( 7, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 43 ) )
+		CHOICE_DBUTTON_VIS( 7, "STG44", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 43 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "AK-74u", scriptMenuResponse "ak74u"; setdvar primary "mtl_weapon_ak74u"; setdvar w_text "AK-74u"; close self; close w_support; W_SUB, setDvar w_text2 "AK-74u"; setdvar primary2 "mtl_weapon_ak74u"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_sumpf" && dvarString(mapname) != "nazi_zombie_factory" int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 80 ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_sumpf" && dvarString(mapname) != "nazi_zombie_factory" int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 80 ) )
+		CHOICE_DBUTTON_VIS( 8, "AK-74u", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_sumpf" && dvarString(mapname) != "nazi_zombie_factory" int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 80 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "MP5", scriptMenuResponse "mp5"; setdvar primary "mtl_weapon_mp5"; setdvar w_text "MP5"; close self; close w_support; W_SUB, setDvar w_text2 "MP5"; setdvar primary2 "mtl_weapon_mp5"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_sumpf" && dvarString(mapname) != "nazi_zombie_factory" int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 100 ))
+		//( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_sumpf" && dvarString(mapname) != "nazi_zombie_factory" int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 100 ) )
+		CHOICE_DBUTTON_VIS( 9, "MP5", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_sumpf" && dvarString(mapname) != "nazi_zombie_factory" int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 100 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Type 100 SMG", scriptMenuResponse "type100_smg"; setdvar primary "weapon_type100_smg"; setdvar w_text "Type 100 SMG"; close self; close w_support; W_RIFLE_2; setDvar unlocked_att dvarint(stg44); open w_rifle_attachments, setDvar w_text2 "Type 100 SMG"; setdvar primary2 "weapon_type100_smg"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && dvarString(mapname) == "nazi_zombie_sumpf" || dvarString(mapname) == "nazi_zombie_factory" && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 43 ))
+		//( 8, "specialty_locked", when( !localvarBool( ui_hideBack ) && dvarString(mapname) == "nazi_zombie_sumpf" || dvarString(mapname) == "nazi_zombie_factory" && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 43 ) )
+		CHOICE_DBUTTON_VIS( 8, "Type 100 SMG", when( !localvarBool( ui_hideBack ) && dvarString(mapname) == "nazi_zombie_sumpf" || dvarString(mapname) == "nazi_zombie_factory" && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 43 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "PPSh-41", scriptMenuResponse "ppsh"; setdvar primary "weapon_ppsh"; setdvar w_text "PPSh-41"; close self; close w_support; W_SUB; setDvar unlocked_att dvarint(ppsh); open w_rifle_attachments2, setDvar w_text2 "PPSh-41"; setdvar primary2 "weapon_ppsh"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_prototype" && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 60 ))
+		//( 9, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 60 ) && dvarString(mapname) != "nazi_zombie_prototype" )
+		CHOICE_DBUTTON_VIS( 9, "PPSh-41", when( !localvarBool( ui_hideBack ) && dvarString(mapname) != "nazi_zombie_prototype" && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 60 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "AK-74u", scriptMenuResponse "ak74u"; setdvar primary "mtl_weapon_ak74u"; setdvar w_text "AK-74u"; close self; close w_support; W_SUB, setDvar w_text2 "AK-74u"; setdvar primary2 "mtl_weapon_ak74u"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 80 ))
+		//( 10, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 80 ) )
+		CHOICE_DBUTTON_VIS( 10, "AK-74u", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 80 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 11, "MP5", scriptMenuResponse "mp5"; setdvar primary "mtl_weapon_mp5"; setdvar w_text "MP5"; close self; close w_support; W_SUB, setDvar w_text2 "MP5"; setdvar primary2 "mtl_weapon_mp5"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 100 ))
+		//( 11, "specialty_locked", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 100 ) )
+		CHOICE_DBUTTON_VIS( 11, "MP5", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 100 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 13, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close w_support; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//*********************************** SHOTGUNS ***********************************//
+	menuDef
+	{
+		name			"w_shot"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP3
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_shot, 3, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Shotguns" )
+		
+		// Weapon Info
+		SHADER_DRAW( 290, 175, 120, 85, dvarString(primary2), 1 1 1 1, when(dvarint(show_primary2) >= 1 && dvarString(primary2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "M1897 Trench Gun", scriptMenuResponse "shotgun"; setdvar primary "weapon_shotgun4"; SHOW_W; setdvar w_text "M1897 Trench Gun"; close self; close w_support; W_SHOT; setdvar unlocked_att dvarint(shotgun); open w_shot_attachments2, setDvar w_text2 "M1897 Trench Gun"; setdvar primary2 "weapon_shotgun4"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 20 ))
+		CHOICE_DBUTTON_VIS( 5, "M1897 Trench Gun", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Double-Barrel", scriptMenuResponse "doublebarrel"; SHOW_W; setdvar primary "weapon_double_barreled_shotgun"; setdvar w_text "Double-Barrel"; close self; close w_support; W_SHOT_2; setdvar unlocked_att dvarint(doublebarrel); open w_shot_attachments, setDvar w_text2 "Double-Barreled Shotgun"; setdvar primary2 "weapon_double_barreled_shotgun"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 32 ))
+		CHOICE_DBUTTON_VIS( 6, "Double-Barrel", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 32 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "W1200", scriptMenuResponse "winchester"; SHOW_W; setdvar primary "mtl_weapon_winchest1200"; setdvar w_text "W1200"; close self; close w_support; W_SHOT_2, setDvar w_text2 "W1200"; setdvar primary2 "mtl_weapon_winchest1200"; setdvar show_primary2 "1", setDvar w_text2 ""; setdvar primary2 ""; setdvar show_primary2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 86 ))
+		CHOICE_DBUTTON_VIS( 7, "W1200", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 86 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close w_support; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** BOLT ATTACHMENTS ****************************************//
+	menuDef
+	{
+		name			"w_bolt_attachments"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_bolt_attachments, 5, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Attachments" )
+		
+		SHADER_DRAW( 290, 175, 100, 78, dvarString(primary_attachment2), 1 1 1 1, when(dvarint(show_primary_attachment2) >= 1 && dvarString(primary_attachment2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Attachment", scriptMenuResponse "none"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; h_none; close self; close w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))	
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Bayonet", scriptMenuResponse "bayonet"; setdvar primary_attachment "weapon_attachment_bayonet"; setdvar w_text_att "Bayonet"; setdvar show_primary_attachment "1"; h_bayonet; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_bayonet"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 20 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 ))
+		CHOICE_DBUTTON_VIS( 6, "Bayonet", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Scope", scriptMenuResponse "scope"; setdvar primary_attachment "weapon_attachment_scoped"; setdvar w_text_att "Scope"; setdvar show_primary_attachment "1"; h_scope; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_scoped"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 30 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30 ))
+		CHOICE_DBUTTON_VIS( 7, "Scope", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; SHOW_W; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** SHOTGUN ATTACHMENTS ****************************************//
+	menuDef
+	{
+		name			"w_shot_attachments"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_shot_attachments, 3, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Attachments" )
+		
+		SHADER_DRAW( 290, 175, 100, 78, dvarString(primary_attachment2), 1 1 1 1, when(dvarint(show_primary_attachment2) >= 1 && dvarString(primary_attachment2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Attachment", scriptMenuResponse "none"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; h_none; close self; close w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))	
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Sawed-off", scriptMenuResponse "sawed_grip"; setdvar primary_attachment "weapon_attachment_sawoff"; setdvar w_text_att "Sawed-off"; setdvar show_primary_attachment "1"; h_bayonet; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_sawoff"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 28 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 28 ))
+		CHOICE_DBUTTON_VIS( 6, "Sawed-off", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 28 ) )
+						
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Cancel", scriptMenuResponse "cancel"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; SHOW_W; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** SHOTGUN ATTACHMENTS 2 ****************************************//
+	menuDef
+	{
+		name			"w_shot_attachments2"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_shot_attachments2, 3, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Attachments" )
+		
+		SHADER_DRAW( 290, 175, 100, 78, dvarString(primary_attachment2), 1 1 1 1, when(dvarint(show_primary_attachment2) >= 1 && dvarString(primary_attachment2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Attachment", scriptMenuResponse "none"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; h_none; close self; close w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))	
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Grip", scriptMenuResponse "grip"; setdvar primary_attachment "weapon_attachment_grip_trenchgun"; setdvar w_text_att "Grip"; setdvar show_primary_attachment "1"; h_bayonet; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_grip_trenchgun"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 25 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25 ))
+		CHOICE_DBUTTON_VIS( 6, "Grip", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25 ) )
+							
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Cancel", scriptMenuResponse "cancel"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; SHOW_W; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+			
+//**************************************** RIFLE ATTACHMENTS ****************************************//
+	menuDef
+	{
+		name			"w_rifle_attachments"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_rifle_attachments, 4, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Attachments" )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Attachment", scriptMenuResponse "none"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; h_none; close self; close w_support, setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))	
+				
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Aperture Sight", scriptMenuResponse "aperture"; setdvar primary_attachment "weapon_attachment_aperture"; setdvar w_text_att "Aperture Sight"; setdvar show_primary_attachment "1"; h_bipod; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_aperture"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 25 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25) )
+		CHOICE_DBUTTON_VIS( 6, "Aperture Sight", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Telescopic Sight", scriptMenuResponse "telescopic"; setdvar show_primary_attachment2 "1"; setdvar primary_attachment "weapon_attachment_acog"; setdvar w_text_att "Telescopic Sight"; setdvar show_primary_attachment "1"; h_telescopic; SHOW_W; close self, setdvar primary_attachment2 "weapon_attachment_telescopic"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 32 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 32) )
+		CHOICE_DBUTTON_VIS( 7, "Telescopic Sight", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 32 ) )
+				
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Cancel", scriptMenuResponse "cancel"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; SHOW_W; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** RIFLE ATTACHMENTS 2 ****************************************//
+	menuDef
+	{
+		name			"w_rifle_attachments2"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_rifle_attachments2, 4, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Attachments" )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Attachment", scriptMenuResponse "none"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; h_none; close self; close w_support, ;, ;, when( !localvarBool( ui_hideBack ) ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && dvarint(thompson) < 0 ))	
+				
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Aperture Sight", scriptMenuResponse "aperture"; setdvar primary_attachment "weapon_attachment_aperture"; setdvar w_text_att "Aperture Sight"; setdvar show_primary_attachment "1"; h_bipod; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_aperture"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 35 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25) )
+		CHOICE_DBUTTON_VIS( 6, "Aperture Sight", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 25 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Ammo Drum", scriptMenuResponse "bigammo"; setdvar primary_attachment "weapon_attachment_bigammo"; setdvar w_text_att "Ammo Drum"; setdvar show_primary_attachment "1"; h_telescopic; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_bigammo"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 35 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 35) )
+		CHOICE_DBUTTON_VIS( 7, "Ammo Drum", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 35 ) )
+				
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 9, "Cancel", scriptMenuResponse "cancel"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; SHOW_W; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+	
+//**************************************** RIFLE ATTACHMENTS 3 ****************************************//
+	menuDef
+	{
+		name			"w_rifle_attachments3"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP2
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_rifle_attachments3, 4, close self, h_no_attachments, 1 )
+		CHOICE_POPMENU_TITLE( "Attachments" )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "No Attachment", scriptMenuResponse "none"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; h_none; close self; close w_support, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 0 ))	
+				
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Bayonet", scriptMenuResponse "bayonet"; setdvar primary_attachment "weapon_attachment_bayonet"; setdvar w_text_att "Bayonet"; setdvar show_primary_attachment "1"; h_bipod; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_bayonet"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 20 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20) )
+		CHOICE_DBUTTON_VIS( 6, "Bayonet", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "Scope", scriptMenuResponse "scoped_zombie"; setdvar primary_attachment "weapon_attachment_scoped"; setdvar w_text_att "Scope"; setdvar show_primary_attachment "1"; h_telescopic; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_scoped"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 30 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 7, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30) )
+		CHOICE_DBUTTON_VIS( 7, "Scope", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 30 ) )
+			
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Grenade Launcher", scriptMenuResponse "gl"; setdvar primary_attachment "weapon_attachment_rg"; setdvar w_text_att "Grenade Launcher"; setdvar show_primary_attachment "1"; h_telescopic; SHOW_W; close self; close w_support, setdvar primary_attachment2 "weapon_attachment_rg"; setdvar show_primary_attachment2 "1", setdvar primary_attachment2 ""; setdvar show_primary_attachment2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) >= 40 ))
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "", ;, ;, ;, when(!localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 40) )
+		CHOICE_DBUTTON_VIS( 8, "Grenade Launcher", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 40 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 10, "Cancel", scriptMenuResponse "cancel"; setdvar primary_attachment2 ""; setdvar w_text_att2 ""; setdvar show_primary_attachment2 "0"; setdvar primary_attachment ""; setdvar w_text_att ""; setdvar show_primary_attachment "0"; SHOW_W; close self, ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+
+//*********************************** GRENADE - SECONDARY ***********************************//
+	menuDef
+	{
+		name			"w_grenade_secondary"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		blurWorld		6.0
+		legacySplitScreenScale
+		onEsc
+		{
+			close w_support;
+			close self;
+			SHOW_W;
+		}
+		onOpen
+		{
+			HIDE_W;
+		}
+		onClose
+		{
+			SHOW_W;
+		}
+		
+		STYLE_SETUP3
+		
+		CENTER_POPUP_SETUP_ONOPEN( w_grenade_secondary, 6, close self, ;, 1 )
+		CHOICE_POPMENU_TITLE( "Secondary Grenade" )
+		
+		// Weapon Info
+		SHADER_DRAW( 290, 175, 80, 75, dvarString(gr_prim2), 1 1 1 1, when(dvarint(show_gr_prim2) >= 1 && dvarString(gr_prim2) != ""))
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 5, "Molotovs", scriptMenuResponse "molotov"; setdvar gr_prim "weapon_molotov_cac"; setdvar w_text_gr_prim "Molotovs"; SHOW_W; close self, setDvar w_text_gr_prim2 "Molotovs"; setdvar gr_prim2 "weapon_molotov_cac"; setdvar show_gr_prim2 "1", setDvar w_text_gr_prim2 ""; setdvar gr_prim2 ""; setdvar show_gr_prim2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 15 ))
+		CHOICE_DBUTTON_VIS( 6, "Molotovs", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 15 ) )
+
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 6, "Sticky Grenades", scriptMenuResponse "sticky_grenade"; setdvar gr_prim "weapon_sticky_grenade_cac"; setdvar w_text_gr_prim "Sticky Grenades"; SHOW_W; close self, setDvar w_text_gr_prim2 "Sticky Grenades"; setdvar gr_prim2 "weapon_sticky_grenade_cac"; setdvar show_gr_prim2 "1", setDvar w_text_gr_prim2 ""; setdvar gr_prim2 ""; setdvar show_gr_prim2 "0", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 20 ))		
+		CHOICE_DBUTTON_VIS( 6, "Sticky Grenades", when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14)) < 20 ) )
+		
+		CHOICE_BUTTON_FOCUS_VIS_NOHI( 8, "Cancel", scriptMenuResponse "cancel"; SHOW_W; close self; , ;, ;, when( !localvarBool( ui_hideBack ) && int(tablelookup("mp/ranktable.csv",0,stat(252),14))  >= 1 ))
+	}
+}

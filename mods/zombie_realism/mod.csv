@@ -1,0 +1,491 @@
+// ignore
+ignore,mp_ct
+// new
+weapon,sp/sticky_grenade
+// new - materials
+material,weapon_sticky_grenade_cac
+material,weapon_molotov_cac
+// vision
+rawfile,vision/berserker.vision
+// sound
+sound,dlc_share2,,all_mp
+// raw
+rawfile,mptype/nazi_zombie_heroes.gsc
+sound,rank_sounds,,all_mp
+// string
+stringtable,mp/rankTable.csv
+stringtable,mp/rankicontable.csv
+stringtable,mp/challengeTable.csv
+stringtable,mp/challengetable_tier5.csv
+// MENUS
+menufile,ui/scriptmenus/classmenu.menu
+menufile,ui/main.menu
+menufile,ui/choices_setup_common.menu
+menufile,ui_mp/common_macro.inc
+menufile,ui/challenges.menu
+menufile,ui/cac_main.menu
+menufile,ui/realism.inc
+menufile,ui_mp/stats_info.inc
+// MATERIALS
+material,specialty_locked_challenge
+material,specialty_armorvest
+material,specialty_bulletdamage
+material,specialty_fastreload
+material,specialty_longersprint
+material,specialty_magic_wrench
+material,specialty_quickrevive_zombies
+material,specialty_specialgrenade
+material,specialty_rof
+material,specialty_twoprimaries
+material,specialty_locked
+material,specialty_new
+material,specialty_null
+material,weapon_30cal
+material,weapon_357magnum
+material,weapon_bar
+material,weapon_bazooka
+material,weapon_colt
+material,weapon_double_barreled_sawed
+material,weapon_double_barreled_shotgun
+material,weapon_dp28
+material,weapon_fg42
+material,weapon_gewehr43
+material,weapon_kar98k
+material,weapon_m1carbine
+material,weapon_m1garand
+material,weapon_mg42
+material,weapon_mp40
+material,weapon_nambu
+material,weapon_panzerscreck
+material,weapon_ppsh
+material,weapon_ptrs41
+material,weapon_shotgun4
+material,weapon_springfield
+material,weapon_stg44
+material,weapon_thompson
+material,weapon_tokarev
+material,weapon_type99_lmg
+material,weapon_type99_rifle
+material,weapon_walther
+material,weapon_attachment_acog
+material,weapon_attachment_aperture
+material,weapon_attachment_bayonet
+material,weapon_attachment_bigammo
+material,weapon_attachment_bipod
+material,weapon_attachment_grip_trenchgun
+material,weapon_attachment_rg
+material,weapon_attachment_sawoff
+material,weapon_attachment_scoped
+// XMODEL
+xmodel,zombie_brain
+xmodel,viewmodel_zombie_colt45_pistol
+xmodel,weapon_zombie_colt45_pistol
+xmodel,viewmodel_zombie_ptrs41
+xmodel,weapon_zombie_ptrs41
+xmodel,viewmodel_zombie_flamethrower
+xmodel,weapon_zombie_flamethrower
+xmodel,viewmodel_zombie_kar98_scoped_rifle
+xmodel,weapon_zombie_kar98_scoped_rifle
+xmodel,viewmodel_zombie_springfield_scoped_rifle
+xmodel,weapon_zombie_springfield_scoped
+xmodel,zombie_vending_doubletap_on
+xmodel,zombie_vending_sleight_on
+xmodel,zombie_vending_jugg_on
+xmodel,zombie_vending_revive_on
+xmodel,zombie_vending_doubletap
+xmodel,zombie_vending_sleight
+xmodel,zombie_vending_jugg
+xmodel,zombie_vending_revive
+xmodel,collision_geo_64x64x128
+// Weapon
+weapon,sp/gewehr43_aperture
+weapon,sp/gewehr43_telescopic
+weapon,sp/kar98k_bayonet
+weapon,sp/m1carbine_aperture
+weapon,sp/m1carbine_bigammo
+weapon,sp/m1garand_bayonet
+weapon,sp/m1garand_scoped
+weapon,sp/mp40_aperture
+weapon,sp/mp40_bigammo
+weapon,sp/ppsh
+weapon,sp/ppsh_aperture
+weapon,sp/ppsh_bigammo
+weapon,sp/shotgun_grip
+weapon,sp/springfield
+weapon,sp/springfield_bayonet
+weapon,sp/springfield_scoped_zombie
+weapon,sp/stg44_aperture
+weapon,sp/stg44_telescopic
+weapon,sp/thompson_aperture
+weapon,sp/thompson_bigammo
+weapon,sp/zombie_perk_bottle_doubletap
+weapon,sp/zombie_perk_bottle_jugg
+weapon,sp/zombie_perk_bottle_revive
+weapon,sp/zombie_perk_bottle_sleight
+// XANIM
+rawfile,animtrees/zombie_factory.atr
+xanim,o_zombie_lattice_gate_full
+xanim,o_zombie_lattice_gate_half
+xanim,o_zombie_difference_engine_ani
+xanim,ai_zombie_jump_down_127
+xanim,ai_zombie_jump_down_184
+xanim,ai_zombie_crawl_jump_down_127
+xanim,ai_zombie_crawl_jump_down_184
+xanim,ai_zombie_attack_forward_v1
+xanim,ai_zombie_attack_forward_v2
+xanim,ai_zombie_attack_v1
+xanim,ai_zombie_attack_v2
+xanim,ai_zombie_attack_v3
+xanim,ai_zombie_attack_v4
+xanim,ai_zombie_attack_v6
+xanim,ai_zombie_walk_attack_v1
+xanim,ai_zombie_walk_attack_v2
+xanim,ai_zombie_walk_attack_v3
+xanim,ai_zombie_walk_attack_v4
+xanim,ai_zombie_run_attack_v1
+xanim,ai_zombie_run_attack_v2
+xanim,ai_zombie_run_attack_v3
+xanim,ai_zombie_run_attack_v4
+xanim,ai_zombie_crawl_death_v1
+xanim,ai_zombie_crawl_death_v2
+xanim,ai_zombie_death_v1
+xanim,ai_zombie_death_v2
+xanim,ai_zombie_tesla_death_a
+xanim,ai_zombie_tesla_death_b
+xanim,ai_zombie_tesla_death_c
+xanim,ai_zombie_tesla_death_d
+xanim,ai_zombie_tesla_death_e
+xanim,ai_zombie_tesla_crawl_death_a
+xanim,ai_zombie_tesla_crawl_death_b
+xanim,ai_zombie_door_pound_v1
+xanim,ai_zombie_door_pound_v2
+xanim,ai_zombie_door_tear_v1
+xanim,ai_zombie_idle_v1
+xanim,ai_zombie_idle_v1_delta
+xanim,ai_zombie_shot_arm_left
+xanim,ai_zombie_shot_arm_right
+xanim,ai_zombie_shot_leg_left_2_crawl
+xanim,ai_zombie_shot_leg_right_2_crawl
+xanim,ai_zombie_sprint_v1
+xanim,ai_zombie_sprint_v2
+xanim,ai_zombie_sprint_v4
+xanim,ai_zombie_sprint_v5
+xanim,ai_zombie_run_v1
+xanim,ai_zombie_run_v2
+xanim,ai_zombie_run_v3
+xanim,ai_zombie_run_v4
+xanim,ai_zombie_walk_fast_v1
+xanim,ai_zombie_walk_fast_v2
+xanim,ai_zombie_walk_fast_v3
+xanim,ai_zombie_walk_v1
+xanim,ai_zombie_walk_v2
+xanim,ai_zombie_walk_v3
+xanim,ai_zombie_walk_v4
+xanim,ai_zombie_walk_v6
+xanim,ai_zombie_walk_v7
+xanim,ai_zombie_walk_v8
+xanim,ai_zombie_walk_v9
+xanim,ai_zombie_door_tear_v2
+xanim,ai_zombie_walk_fast_v1
+xanim,ai_zombie_walk_fast_v2
+xanim,ai_zombie_walk_fast_v3
+xanim,ai_zombie_sprint_v1
+xanim,ai_zombie_sprint_v2
+xanim,ai_zombie_crawl
+xanim,ai_zombie_crawl_v1
+xanim,ai_zombie_crawl_v2
+xanim,ai_zombie_crawl_v3
+xanim,ai_zombie_crawl_v4
+xanim,ai_zombie_crawl_v5
+xanim,ai_zombie_crawl_death_v1
+xanim,ai_zombie_crawl_death_v2	
+xanim,ai_zombie_crawl_sprint
+xanim,ai_zombie_crawl_sprint_1
+xanim,ai_zombie_crawl_sprint_2
+xanim,ai_zombie_idle_crawl
+xanim,ai_zombie_idle_crawl_base
+xanim,ai_zombie_idle_crawl_delta
+xanim,ai_zombie_attack_crawl
+xanim,ai_zombie_attack_crawl_lunge
+xanim,ai_zombie_walk_on_hands_a
+xanim,ai_zombie_walk_on_hands_b
+xanim,ai_zombie_walk_on_hands_shot_a
+xanim,ai_zombie_walk_on_hands_shot_b
+xanim,ai_zombie_taunts_4
+xanim,ai_zombie_taunts_5b
+xanim,ai_zombie_taunts_5c
+xanim,ai_zombie_taunts_5d
+xanim,ai_zombie_taunts_5e
+xanim,ai_zombie_taunts_5f
+xanim,ai_zombie_taunts_7
+xanim,ai_zombie_taunts_9
+xanim,ai_zombie_window_attack_arm_L_out
+xanim,ai_zombie_window_attack_arm_R_out
+xanim,ai_zombie_boardtear_l_1
+xanim,ai_zombie_boardtear_l_2
+xanim,ai_zombie_boardtear_l_3
+xanim,ai_zombie_boardtear_l_4
+xanim,ai_zombie_boardtear_l_5
+xanim,ai_zombie_boardtear_l_6
+xanim,ai_zombie_boardtear_m_1
+xanim,ai_zombie_boardtear_m_2
+xanim,ai_zombie_boardtear_m_3
+xanim,ai_zombie_boardtear_m_4
+xanim,ai_zombie_boardtear_m_5
+xanim,ai_zombie_boardtear_m_6
+xanim,ai_zombie_boardtear_r_1
+xanim,ai_zombie_boardtear_r_2
+xanim,ai_zombie_boardtear_r_3
+xanim,ai_zombie_boardtear_r_4
+xanim,ai_zombie_boardtear_r_5
+xanim,ai_zombie_boardtear_r_6
+xanim,ai_zombie_boardtear_crawl_l_1
+xanim,ai_zombie_boardtear_crawl_l_2
+xanim,ai_zombie_boardtear_crawl_l_3
+xanim,ai_zombie_boardtear_crawl_l_4
+xanim,ai_zombie_boardtear_crawl_l_5
+xanim,ai_zombie_boardtear_crawl_l_6
+xanim,ai_zombie_boardtear_crawl_m_1
+xanim,ai_zombie_boardtear_crawl_m_2
+xanim,ai_zombie_boardtear_crawl_m_3
+xanim,ai_zombie_boardtear_crawl_m_4
+xanim,ai_zombie_boardtear_crawl_m_5
+xanim,ai_zombie_boardtear_crawl_m_6
+xanim,ai_zombie_boardtear_crawl_r_1
+xanim,ai_zombie_boardtear_crawl_r_2
+xanim,ai_zombie_boardtear_crawl_r_3
+xanim,ai_zombie_boardtear_crawl_r_4
+xanim,ai_zombie_boardtear_crawl_r_5
+xanim,ai_zombie_boardtear_crawl_r_6
+xanim,ai_zombie_door_tear_v1
+xanim,ai_zombie_door_tear_v2
+xanim,ai_zombie_door_tear_high
+xanim,ai_zombie_door_tear_left
+xanim,ai_zombie_door_tear_right
+xanim,ai_zombie_door_tear_low
+xanim,ai_zombie_door_pound_v1
+xanim,ai_zombie_door_pound_v2
+xanim,ai_zombie_shot_arm_left
+xanim,ai_zombie_shot_arm_right
+xanim,ai_zombie_shot_leg_left_2_crawl
+xanim,ai_zombie_shot_leg_right_2_crawl
+xanim,ai_zombie_attack_forward_v1
+xanim,ai_zombie_attack_forward_v2
+xanim,ai_zombie_attack_v1
+xanim,ai_zombie_attack_v2
+xanim,ai_zombie_idle_v1
+xanim,ai_zombie_idle_base
+xanim,ai_zombie_traverse_v1
+xanim,ai_zombie_traverse_v2
+xanim,ai_zombie_traverse_v4
+xanim,ai_zombie_traverse_v5
+xanim,ai_zombie_traverse_v6
+xanim,ai_zombie_traverse_v7
+xanim,ai_zombie_traverse_crawl_v1
+xanim,ai_zombie_lighthouse_crawl_down
+xanim,ai_zombie_climb_chain
+xanim,ai_zombie_climb_chain_fast
+xanim,ai_zombie_ladder_climb_loop
+xanim,ai_zombie_ladder_climb_off
+xanim,ai_zombie_ladder_climb_on
+xanim,ai_zombie_crawl_jump_down_72
+xanim,ai_zombie_crawl_jump_down_97
+xanim,ai_zombie_crawl_jump_down_127
+xanim,ai_zombie_crawl_jump_down_184
+xanim,ai_zombie_crawl_jump_down_189
+xanim,ai_zombie_jump_down_190
+xanim,ai_zombie_jump_down_120
+xanim,ai_zombie_jump_down_96
+xanim,ai_zombie_jump_down_72
+xanim,ai_zombie_jump_down_40
+xanim,ai_zombie_jump_up_2_climb
+xanim,ai_zombie_jump_up
+xanim,ai_zombie_crawl_jump_up_2_climb
+xanim,ai_zombie_traverse_ground_v1_crawl
+xanim,ai_zombie_traverse_ground_v1_crawlfast
+xanim,ai_zombie_traverse_ground_v1_deathinside
+xanim,ai_zombie_traverse_ground_v1_deathinside_alt
+xanim,ai_zombie_traverse_ground_v1_deathoutside
+xanim,ai_zombie_traverse_ground_v1_deathoutside_alt
+xanim,ai_zombie_traverse_ground_v1_run
+xanim,ai_zombie_traverse_ground_v1_walk
+xanim,ai_zombie_traverse_ground_v2_death_high
+xanim,ai_zombie_traverse_ground_v2_death_high_alt
+xanim,ai_zombie_traverse_ground_v2_death_low
+xanim,ai_zombie_traverse_ground_v2_death_low_alt
+xanim,ai_zombie_traverse_ground_v2_walk
+xanim,ai_zombie_traverse_ground_v2_walk_altA
+xanim,ai_zombie_traverse_ground_v2_walk_altB
+xanim,ai_zombie_traverse_ground_climbout_fast
+character,char_ger_honorguard2_zombies
+character,char_ger_honorguard_zombies
+character,char_rus_guard_player_hmg
+character,char_usa_raider_player_assault
+character,char_zomb_player_1
+character,char_zomb_player_3
+// fx
+//fx,maps/mp_maps/fx_mp_zombie_hand_dirt_burst
+//fx,maps/mp_maps/fx_mp_zombie_body_dirt_billowing
+fx,maps/mp_maps/fx_mp_zombie_body_dust_falling
+// MODERN WEAPON
+weapon,sp/ak47
+weapon,sp/ak74u
+weapon,sp/deserteagle
+weapon,sp/dragunov
+weapon,sp/m4
+weapon,sp/m7_launcher2
+weapon,sp/m16
+weapon,sp/m249
+weapon,sp/mp5
+weapon,sp/rpd
+weapon,sp/winchester
+xmodel,viewmodel_rpd
+xmodel,weapon_rpd
+xanim,viewmodel_rpd_idle
+xanim,viewmodel_rpd_fire
+xanim,viewmodel_rpd_reload
+xanim,viewmodel_rpd_pullout
+xanim,viewmodel_rpd_putaway
+xanim,viewmodel_rpd_ADS_fire
+xanim,viewmodel_rpd_ADS_up
+xanim,viewmodel_rpd_ADS_down
+xmodel, viewmodel_desert_eagle
+xmodel, weapon_desert_eagle_silver
+xanim, viewmodel_desert_eagle_idle
+xanim, viewmodel_desert_eagle_fire
+xanim, viewmodel_desert_eagle_reload
+xanim, viewmodel_desert_eagle_reload_empty
+xanim, viewmodel_desert_eagle_pullout
+xanim, viewmodel_desert_eagle_putaway
+xanim, viewmodel_desert_eagle_ads_fire
+xanim, viewmodel_desert_eagle_ads_up
+xanim, viewmodel_desert_eagle_ads_down
+xmodel, viewmodel_mp5
+xmodel, weapon_mp5
+xmodel, weapon_mp5_clip
+xanim, viewmodel_mp5_idle
+xanim, viewmodel_mp5_fire
+xanim, viewmodel_mp5_reload
+xanim, viewmodel_mp5_reload_empty
+xanim, viewmodel_mp5_pullout
+xanim, viewmodel_mp5_putaway
+xanim, viewmodel_mp5_pullout_quick
+xanim, viewmodel_mp5_putaway_quick
+xanim, viewmodel_mp5_ads_fire
+xanim, viewmodel_mp5_ads_up
+xanim, viewmodel_mp5_ads_down
+xmodel, viewmodel_ak47
+xmodel, weapon_ak47
+xmodel, weapon_ak47_clip
+xanim, viewmodel_ak47_idle
+xanim, viewmodel_ak47_fire
+xanim, viewmodel_ak47_reload
+xanim, viewmodel_ak47_reload_empty
+xanim, viewmodel_ak47_pullout
+xanim, viewmodel_ak47_putaway
+xanim, viewmodel_ak47_first_time_pullout
+xanim, viewmodel_ak47_pullout_quick
+xanim, viewmodel_ak47_putaway_quick
+xanim, viewmodel_ak47_fire_ads
+xanim, viewmodel_ak47_ADS_up
+xanim, viewmodel_ak47_ADS_down
+xmodel,viewmodel_m249
+xmodel,weapon_saw
+xmodel,weapon_saw_clip
+xanim,viewmodel_m249_idle
+xanim,viewmodel_m249_fire
+xanim,viewmodel_m249_reload
+xanim,viewmodel_m249_fire_ads
+xanim,viewmodel_m249_ads_up
+xanim,viewmodel_m249_ads_down
+xanim,viewmodel_m249_pullout
+xanim,viewmodel_m249_putaway
+xanim,viewmodel_m249_pullout_empty
+xmodel, viewmodel_M4
+xmodel, weapon_m4grunt_sp
+xmodel, weapon_m16_clip
+xanim, viewmodel_M4_idle
+xanim, viewmodel_M4_fire
+xanim, viewmodel_M4_reload
+xanim, viewmodel_M4_reload_empty
+xanim, viewmodel_M4_pullout
+xanim, viewmodel_M4_putaway
+xanim, viewmodel_m4_first_time_pullout
+xanim, viewmodel_M4silencer_quick_pullout
+xanim, viewmodel_M4silencer_quick_putaway
+xanim, viewmodel_M4_fire_ads
+xanim, viewmodel_M4_ADS_up
+xanim, viewmodel_M4_ADS_down
+xmodel, viewmodel_dragunov
+xmodel, weapon_dragunov
+xmodel, weapon_dragunov_clip
+xanim, viewmodel_dragunov_idle
+xanim, viewmodel_dragunov_fire
+xanim, viewmodel_dragunov_reload
+xanim, viewmodel_dragunov_reload_empty
+xanim, viewmodel_dragunov_pullout
+xanim, viewmodel_dragunov_putaway
+xanim, viewmodel_dragunov_quick_pullout
+xanim, viewmodel_dragunov_quick_putaway
+xanim, viewmodel_dragunov_ADS_up
+xanim, viewmodel_dragunov_ADS_down
+xmodel, viewmodel_winchester1200
+xmodel, weapon_winchest1200
+xanim, viewmodel_winchester_idle
+xanim, viewmodel_winchester_fire
+xanim, viewmodel_winchester_rechamber
+xanim, viewmodel_winchester_reload_loop
+xanim, viewmodel_winchester_reload_intro
+xanim, viewmodel_winchester_reload_end
+xanim, viewmodel_winchester_pullout
+xanim, viewmodel_winchester_putaway
+xanim, viewmodel_winchester_pullout_quick
+xanim, viewmodel_winchester_putaway_quick
+xanim, viewmodel_winchester_fire_ads
+xanim, viewmodel_winchester_rechamber_ads
+xanim, viewmodel_winchester_ADS_up
+xanim, viewmodel_winchester_ADS_down
+xmodel, viewmodel_ak74u
+xmodel, weapon_ak74u
+xmodel, weapon_ak74u_clip
+xanim, viewmodel_ak74u_idle
+xanim, viewmodel_ak74u_fire
+xanim, viewmodel_ak74u_reload
+xanim, viewmodel_ak74u_reload_empty
+xanim, viewmodel_ak74u_pullout
+xanim, viewmodel_ak74u_putaway
+xanim, viewmodel_ak74u_pullout_first
+xanim, viewmodel_ak74u_pullout_quick
+xanim, viewmodel_ak74u_putaway_quick
+xanim, viewmodel_ak74u_fire_ads
+xanim, viewmodel_ak74u_ADS_up
+xanim, viewmodel_ak74u_ADS_down
+xmodel, viewmodel_m4m203_mp_brock
+xmodel, weapon_m4m203_mp_brock
+xmodel, projectile_m203grenade
+xanim, viewmodel_M4m203_idle
+xanim, viewmodel_M4m203_fire
+xanim, viewmodel_M4m203_reload
+xanim, viewmodel_M4m203_reload_empty
+xanim, viewmodel_M4m203_pullout
+xanim, viewmodel_M4m203_putaway
+xanim, viewmodel_M4m203_first_time_pullout
+xanim, viewmodel_m4m203_grenade_2_bullet
+xanim, viewmodel_M4m203_quick_pullout
+xanim, viewmodel_M4m203_quick_putaway
+xanim, viewmodel_M4_acog_ADS_up_SP
+xanim, viewmodel_M4_acog_ADS_down_SP
+xanim, viewmodel_M4m203_grenade_idle
+xanim, viewmodel_M4m203_grenade_fire
+xanim, viewmodel_M4m203_grenade_reload
+xanim, viewmodel_M4m203_grenade_pullout
+xanim, viewmodel_M4m203_grenade_putaway
+xanim, viewmodel_M4m203_bullet_2_grenade
+xanim, viewmodel_M4m203_grenade_quick_pullout
+xanim, viewmodel_M4m203_grenade_quick_putaway
+xanim, viewmodel_M4m203_grenade_fire
+xanim, viewmodel_M4m203_grenade_ADS_up
+xanim, viewmodel_M4m203_grenade_ADS_down
+// drone
+character,char_usa_marine_h_comoff
+xmodel,mounted_ger_mg42_bipod_mg
